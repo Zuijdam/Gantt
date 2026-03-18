@@ -1,80 +1,80 @@
 # Gantt
-_Online Gantt Chart for a better planning._
+_Online Gantt-diagram voor betere planning._
 
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/carleslc)
 
-Using [dhtmlxGantt](https://dhtmlx.com/docs/products/dhtmlxGantt/) library. Free support for milestones.
+Maakt gebruik van de [dhtmlxGantt](https://dhtmlx.com/docs/products/dhtmlxGantt/) bibliotheek. Gratis ondersteuning voor mijlpalen.
 
-Export to *PDF*, *PNG*, *Excel*, *iCal* and save as *JSON* to load and edit in the future.
+Exporteren naar *PDF*, *PNG*, *Excel*, *iCal* en opslaan als *JSON* om later te laden en te bewerken.
 
-Collaborators are welcome via pull-request.
+Bijdragers zijn welkom via pull-request.
 
-## ¿Qué es un diagrama de Gantt?
+## Wat is een Gantt-diagram?
 
-El *diagrama de Gantt* es un esquema visual en el que podemos observar de forma general las etapas de un proyecto y la duración de cada etapa, útil para planificar y prever cuando se tiene previsto terminar el proyecto o una parte de este, y para observar el progreso en un momento determinado.
+Het *Gantt-diagram* is een visueel schema waarin we globaal de fasen van een project en de duur van elke fase kunnen zien. Het is handig om te plannen en in te schatten wanneer een project of een onderdeel daarvan naar verwachting klaar zal zijn, en om de voortgang op een bepaald moment te bekijken.
 
-## ¿Qué herramientas podemos usar?
+## Welke hulpmiddelen kunnen we gebruiken?
 
-Para *prototipado* rápido y para diagramas sencillos podemos usar esta herramienta. Más abajo se detalla un ejemplo de uso.
+Voor snelle *prototyping* en voor simpele diagrammen kunnen we deze tool gebruiken. Hieronder staat een voorbeeld van gebruik.
 
-Otra opción es usar una hoja de **Excel** o **Google Spreadsheets** usando una tabla y un gráfico de barras. Para diagramas con más complejidad o para hacer seguimiento de tareas es preferible utilizar herramientas más avanzadas. Algunas herramientas específicas para este tipo de diagramas son **GanttProjct**, **Gantter** o **Microsoft Project**. Algunos servicios como **Asana**, **Trello** o **Coda** proporcionan sus propios calendarios que relacionan las tareas con su representación en calendario o como diagrama de Gantt, lo que permite tener una mayor trazabilidad.
+Een andere optie is een **Excel**- of **Google Spreadsheets**-blad te gebruiken met een tabel en een staafdiagram. Voor complexere diagrammen of voor taakopvolging is het aan te raden geavanceerdere tools te gebruiken. Enkele specifieke tools voor dit soort diagrammen zijn **GanttProjct**, **Gantter** of **Microsoft Project**. Diensten zoals **Asana**, **Trello** of **Coda** bieden hun eigen kalenders die taken relateren aan een kalenderweergave of een Gantt-diagram, wat betere traceerbaarheid mogelijk maakt.
 
-## Creando un diagrama sencillo
+## Een eenvoudig diagram maken
 
-Si no necesitamos trazabilidad de tareas y solo queremos hacer un diagrama sencillo podemos usar la página [https://carleslc.me/Gantt/](https://carleslc.me/Gantt/), con el que obtendremos un resultado como el que se muestra a continuación.
+Als we geen taaktraceerbaarheid nodig hebben en alleen een eenvoudig diagram willen, kunnen we de pagina [https://carleslc.me/Gantt/](https://carleslc.me/Gantt/) gebruiken. Daarmee krijgen we een resultaat zoals hieronder.
 
-![Haz click [aquí](https://github.com/Carleslc/Gantt/blob/master/images/resultado.png?raw=true) para visualizarlo mejor](images/resultado.png)
+![Klik [hier](https://github.com/Carleslc/Gantt/blob/master/images/resultado.png?raw=true) om het beter te bekijken](images/resultado.png)
 
-Cuando accedemos a la página nos encontramos con nuestro espacio de trabajo, con diferentes opciones para poder crear nuestro diagrama:
+Bij het openen van de pagina zien we onze werkruimte, met verschillende opties om ons diagram te maken:
 
 ![](images/espacio_trabajo.png)
 
-Para añadir una **tarea** pulsaremos en el "**+**" de la parte izquierda de la página, donde se mostrará el *árbol de tareas y proyectos* con sus fechas de inicio y duraciones.
+Om een **taak** toe te voegen drukken we op de "**+**" aan de linkerkant van de pagina, waar de *taken- en projectboom* met startdata en duur wordt weergegeven.
 
 ![](images/plus.png)
 
-Cuando pulsamos en el "+" nos aparece una ventana para rellenar la información de nuestra tarea.
+Wanneer we op de "+" drukken verschijnt een venster om de informatie van onze taak in te vullen.
 
 ![](images/task.png)
 
-Añadimos una pequeña descripción como **título** (Description) de la tarea y le damos a guardar (Save). Las **fechas** de inicio y final las podemos especificar ahora o más tarde, *estirando* la tarea arrastrando desde sus laterales.
+We voegen een korte beschrijving toe als **titel** (Description) van de taak en klikken op opslaan (Save). De **start-** en einddata kunnen we nu of later specificeren door de taak aan de zijkanten te *rekken*.
 
-Aquí consideraremos un **proyecto** como un conjunto de tareas, y se muestra en el diagrama de color verde. Sirven para mejorar la visualización de etapas más generales. Las tareas se muestran en color azul. Podemos crear un proyecto añadiendo subtareas, como se muestra en el gráfico siguiente.
+Hier beschouwen we een **project** als een verzameling taken, en het wordt in het diagram groen weergegeven. Projecten verbeteren de visualisatie van bredere fasen. Taken worden in blauw weergegeven. We kunnen een project maken door subtaken toe te voegen, zoals in de volgende afbeelding.
 
 ![](images/project.png)
 
-Puedes **editar** una tarea haciendo *doble click* sobre ella.
+Je kunt een taak **bewerken** door er dubbel op te klikken.
 
-Si quieres, puedes especificar **dependencias** usando flechas, mediante los círculos a los laterales de las tareas.
+Als je wilt, kun je **afhankelijkheden** specificeren met pijlen, via de cirkels aan de zijkanten van de taken.
 
 ![](images/dependencias.png)
 
-Puedes definir *milestones* a la hora de crear una tarea. Esto son **objetivos**, y se muestran en morado.
+Je kunt *mijlpalen* (milestones) definiëren bij het aanmaken van een taak. Dit zijn **doelen**, en ze worden paars weergegeven.
 
 ![](images/milestone.png)
 
-Puedes modificar el **zoom** del diagrama para verlo de forma más global. Hay tres niveles de zoom: semanal, mensual y anual. Así queda el diagrama en visualización anual:
+Je kunt de **zoom** van het diagram aanpassen om het meer globaal te bekijken. Er zijn drie zoomniveaus: wekelijks, maandelijks en jaarlijks. Zo ziet het diagram eruit in jaarniveau:
 
 ![](images/zoom.png)
 
-La opción *"Show Today"* te permite señalar dónde nos encontramos actualmente.
+De optie *"Show Today"* laat zien waar we ons momenteel bevinden.
 
-A la hora de añadir tareas puedes usar la opción *"Preference" Consecutive / Parallel*, para añadirlas después de la anterior o debajo de forma solapada. Las funciones *Indent / Outdent* son para añadir tareas existentes a proyectos o para sacarlas de un proyecto. Puedes mover tareas desde el árbol de tareas y también puedes **seleccionar** más de una tarea a la vez manteniendo pulsado *Shift* o *Control*.
+Bij het toevoegen van taken kun je de optie *"Preference" Consecutive / Parallel* gebruiken om ze na de vorige toe te voegen of eronder overlappend. De functies *Indent / Outdent* zijn om bestaande taken aan projecten toe te voegen of eruit te halen. Je kunt taken verplaatsen vanuit de takenboom en je kunt ook meerdere taken tegelijk **selecteren** door Shift of Control ingedrukt te houden.
 
-Las opciones "Expand Task/Project Titles" sirven para añadir el título de la tarea o proyecto al lado, para verse incluso si por el zoom o la duración de la tarea el título queda cortado.
+De opties "Expand Task/Project Titles" dienen om de titel van de taak of het project naast de balk weer te geven, zodat deze zichtbaar blijft ook als door de zoom of korte duur de titel wordt afgekapt.
 
-En la siguiente imagen hemos marcado la opción "Expand Task Titles".
+In de volgende afbeelding hebben we de optie "Expand Task Titles" aangevinkt.
 
 ![](images/expand.png)
 
-También puedes cambiar el **estilo** del diagrama.
+Je kunt ook de **stijl** van het diagram wijzigen.
 
 ![](images/style.png)
 
-Cuando hayas terminado, puedes **exportar** el diagrama en varios formatos (PNG, PDF, Excel o iCal). El formato **iCal** sirve para añadirlo a un calendario existente como el de Google Calendar.
+Als je klaar bent kun je het diagram **exporteren** naar diverse formaten (PNG, PDF, Excel of iCal). Het **iCal**-formaat is handig om toe te voegen aan een bestaand kalender zoals Google Calendar.
 
 ![](images/export.png)
 
-Para poder **guardar** el diagrama y **editarlo más tarde** utiliza la opción "**Save**" arriba de la página y luego haz click en "**Download**". Esto descargará un documento en formato JSON que podrás cargar usando la opción "Load" cuando vuelvas más tarde a esta página.
+Om het diagram te **opslaan** en later te **bewerken**, gebruik de optie "**Save**" bovenaan de pagina en klik dan op "**Download**". Dit downloadt een document in JSON-formaat dat je later kunt laden met de optie "Load" wanneer je terugkomt naar deze pagina.
 
 ![](images/save.png)
