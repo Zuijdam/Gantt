@@ -175,7 +175,84 @@
     return textFile;
   };
 
+  var GANTT_LOCAL_KEY = 'ganttData';
+
+  function saveGanttToLocalStorage() {
+    try {
+      var payload = {
+        schemaVersion: 1,
+        savedAt: new Date().toISOString(),
+        gantt: gantt.serialize()
+      };
+      localStorage.setItem(GANTT_LOCAL_KEY, JSON.stringify(payload));
+      gantt.message({ type: 'success', text: 'Gantt saved to localStorage', expire: 2000 });
+    } catch (err) {
+      gantt.message({ type: 'error', text: 'Failed to save gantt to localStorage', expire: 3000 });
+      console.error('localStorage save error', err);
+    }
+  }
+
+  function loadGanttFromLocalStorage() {
+    var raw = localStorage.getItem(GANTT_LOCAL_KEY);
+    if (!raw) {
+      console.info('No ganttData in localStorage');
+      return false;
+    }
+
+    var ganttObject = null;
+    try {
+      var parsed = JSON.parse(raw);
+      if (parsed && parsed.gantt) {
+        ganttObject = parsed.gantt;
+      } else {
+        ganttObject = parsed;
+      }
+    } catch (err) {
+      console.warn('localStorage gantt data is not valid JSON, clearing key', err);
+      localStorage.removeItem(GANTT_LOCAL_KEY);
+      return false;
+    }
+
+    if (!ganttObject || typeof ganttObject !== 'object') {
+      console.warn('localStorage gantt data is not a valid gantt object, clearing key', ganttObject);
+      localStorage.removeItem(GANTT_LOCAL_KEY);
+      return false;
+    }
+
+    var payload = null;
+    if (ganttObject.data || ganttObject.links) {
+      payload = ganttObject;
+    } else if (ganttObject.tasks) {
+      payload = {
+        data: ganttObject.tasks,
+        links: ganttObject.links || []
+      };
+    } else {
+      // fallback for direct serialize() without wrapping
+      payload = ganttObject;
+    }
+
+    if (!payload || (!payload.data && !payload.tasks && !payload.links)) {
+      console.warn('localStorage gantt object does not contain data or links', payload);
+      localStorage.removeItem(GANTT_LOCAL_KEY);
+      return false;
+    }
+
+    try {
+      gantt.parse(payload);
+      var countData = (payload.data && payload.data.length) || (payload.tasks && payload.tasks.length) || 0;
+      gantt.message({ type: 'success', text: 'Gantt loaded from localStorage (' + countData + ' tasks)', expire: 2000 });
+      return true;
+    } catch (err) {
+      console.error('localStorage load error - invalid gantt content', err);
+      localStorage.removeItem(GANTT_LOCAL_KEY);
+      return false;
+    }
+  }
+
   document.getElementById('save').addEventListener('click', function() {
+    saveGanttToLocalStorage();
+
     var link = document.getElementById('download_json');
     link.href = makeTextFile(ganttJSON());
     link.style.display = 'inline';
@@ -207,6 +284,10 @@
   $("#load_file").change(function() {
     loadData(this.files[0]);
   });
+
+  // Try to restore last saved state from localStorage on page load, once Gantt is initialized.
+  setTimeout(loadGanttFromLocalStorage, 0);
+
   </script>
   <style type="text/css">
   html,
