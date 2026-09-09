@@ -30,9 +30,143 @@
   <link id="skin" rel="stylesheet" href="codebase/dhtmlxgantt.css" type="text/css" media="screen" title="no title" charset="utf-8">
   <script src="codebase/ext/dhtmlxgantt_multiselect.js"></script>
   <script src="codebase/ext/dhtmlxgantt_marker.js" type="text/javascript" charset="utf-8"></script>
+  <style>
+    .login-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+    }
+
+    .login-box {
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .login-box h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+      font-size: 28px;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    .login-box input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+
+    .login-box button:hover {
+      transform: translateY(-2px);
+    }
+
+    .login-box .error {
+      color: #d32f2f;
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* Status styling */
+    .task_active {
+      background-color: #4CAF50 !important;
+    }
+
+    .task_on_hold {
+      background-color: #FF9800 !important;
+    }
+
+    .task_unknown {
+      background-color: #9E9E9E !important;
+    }
+
+    .gantt_task_line.task_active {
+      background-color: #4CAF50 !important;
+      border-color: #45a049 !important;
+    }
+
+    .gantt_task_line.task_on_hold {
+      background-color: #FF9800 !important;
+      border-color: #e68900 !important;
+    }
+
+    .gantt_task_line.task_unknown {
+      background-color: #9E9E9E !important;
+      border-color: #757575 !important;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-size: 12px;
+      font-weight: bold;
+      color: white;
+      margin-right: 5px;
+    }
+
+    .status-badge.active {
+      background-color: #4CAF50;
+    }
+
+    .status-badge.on_hold {
+      background-color: #FF9800;
+    }
+
+    .status-badge.unknown {
+      background-color: #9E9E9E;
+    }
+  </style>
 </head>
 
 <body>
+  <!-- Login Modal -->
+  <div id="loginModal" class="login-container">
+    <div class="login-box">
+      <h1>Gantt Online</h1>
+      <div id="loginError" class="error hidden"></div>
+      <input type="password" id="passwordInput" placeholder="Enter password" autocomplete="off">
+      <button onclick="checkPassword()">Login</button>
+    </div>
+  </div>
+
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
@@ -41,6 +175,10 @@
   </script>
   <div>
     <div class="row align-items-center">
+      <div class="col-auto">
+        <!-- New Chart -->
+        <button id="new-chart" class="btn btn-warning">New Chart</button>
+      </div>
       <div class="col-auto">
         <!-- Load data -->
         <div class="row align-items-center">
@@ -132,22 +270,12 @@
         <input type="checkbox" value="" id="today-marker" checked>
         <label class="form-check-label" for="today-marker">Show Today</label>
       </div>
-      <div class="col-auto">
-        <script type='text/javascript' src='https://ko-fi.com/widgets/widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Buy me a coffee', '#32ba44', 'carleslc');kofiwidget2.draw();</script>
-      </div>
     </div>
   </div>
   <script type="text/javascript">
   $('[data-toggle="tooltip"]').tooltip();
   </script>
   <script>
-  function supportMe() {
-    gantt.alert({
-      text: "If this free tool helps you please consider supporting my work.<div class='container btn-container'><div class='row'><div class='col text-center'><a href='https://ko-fi.com/carleslc' target='_blank'><img height='36' style='border:0px;height:36px;margin: 0 auto;float:none;' src='https://az743702.vo.msecnd.net/cdn/kofi4.png?v=2' border='0' alt='Buy Me a Coffee'/></a></div></div></div><i>Thank you! </i>🥰",
-      expire: -1 // milliseconds
-    });
-  }
-
   function ganttJSON() {
     return JSON.stringify(gantt.serialize());
   }
@@ -255,14 +383,9 @@
 
     var link = document.getElementById('download_json');
     link.href = makeTextFile(ganttJSON());
-    link.style.display = 'inline';
+    link.download = 'gantt-' + new Date().toISOString().slice(0, 10) + '.json';
+    link.click();
   }, false);
-
-  
-  $('#download_json').on('click', function() {
-    document.getElementById('download_json').style.display = 'none';
-    supportMe();
-  });
 
   // Load
   loadData = function(file) {
@@ -285,8 +408,80 @@
     loadData(this.files[0]);
   });
 
-  // Try to restore last saved state from localStorage on page load, once Gantt is initialized.
-  setTimeout(loadGanttFromLocalStorage, 0);
+  // ========== PASSWORD PROTECTION ==========
+  const CORRECT_PASSWORD = 'password123';
+  const SESSION_AUTH_KEY = 'gantt_authenticated';
+
+  function checkPassword() {
+    const passwordInput = document.getElementById('passwordInput');
+    const password = passwordInput.value;
+    const loginError = document.getElementById('loginError');
+    const loginModal = document.getElementById('loginModal');
+
+    if (password === CORRECT_PASSWORD) {
+      sessionStorage.setItem(SESSION_AUTH_KEY, 'true');
+      loginModal.classList.add('hidden');
+      loginModal.style.display = 'none';
+      document.getElementById('gantt_here').style.display = 'block';
+      document.body.style.overflow = 'auto';
+      passwordInput.value = '';
+      loginError.classList.add('hidden');
+      // Load data from localStorage after successful authentication
+      setTimeout(loadGanttFromLocalStorage, 0);
+    } else {
+      loginError.textContent = 'Invalid password. Please try again.';
+      loginError.classList.remove('hidden');
+      passwordInput.value = '';
+      passwordInput.focus();
+    }
+  }
+
+  function checkAuthentication() {
+    if (!sessionStorage.getItem(SESSION_AUTH_KEY)) {
+      document.getElementById('loginModal').classList.remove('hidden');
+      document.getElementById('loginModal').style.display = 'flex';
+      document.getElementById('gantt_here').style.display = 'none';
+      document.body.style.overflow = 'hidden';
+      document.getElementById('passwordInput').focus();
+      return false;
+    } else {
+      document.getElementById('loginModal').classList.add('hidden');
+      document.getElementById('loginModal').style.display = 'none';
+      document.getElementById('gantt_here').style.display = 'block';
+      document.body.style.overflow = 'auto';
+      // Load data from localStorage if already authenticated
+      setTimeout(loadGanttFromLocalStorage, 0);
+    }
+    return true;
+  }
+
+  // Allow Enter key to submit password
+  document.getElementById('passwordInput').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+      checkPassword();
+    }
+  });
+
+  // Check authentication on page load
+  window.addEventListener('load', function() {
+    checkAuthentication();
+  });
+
+  // ========== NEW CHART FUNCTIONALITY ==========
+  document.getElementById('new-chart').addEventListener('click', function() {
+    if (confirm('Are you sure you want to start a new chart? Any unsaved data will be lost.')) {
+      gantt.clearAll();
+      localStorage.removeItem(GANTT_LOCAL_KEY);
+      document.getElementById('download_json').style.display = 'none';
+      last_end_date = null;
+      last_start_date = null;
+      gantt.message({
+        type: 'success',
+        text: 'New chart started',
+        expire: 2000
+      });
+    }
+  });
 
   </script>
   <style type="text/css">
@@ -346,7 +541,7 @@
     padding-left: 0.5em;
   }
   </style>
-  <div id="gantt_here" style='width:100%; height:100%;'></div>
+  <div id="gantt_here" style='width:100%; height:100%; display:none;'></div>
   <!-- Config and load data -->
   <script type="text/javascript">
   gantt.message({
@@ -479,6 +674,10 @@
       if (gantt.isSelectedTask(task.id)) {
         classes.push("gantt_selected");
       }
+      // Add status class if status exists
+      if (task.status) {
+        classes.push("task_" + task.status);
+      }
       return classes.join(" ");
     };
 
@@ -511,8 +710,24 @@
         ? task.text : "";
     };
 
+    // Display status badge in grid
+    gantt.templates.grid_text = function(start, end, task) {
+      if (task.status) {
+        var statusText = task.status === 'on_hold' ? 'On Hold' : 
+                         task.status === 'active' ? 'Active' : 
+                         task.status === 'unknown' ? 'Unknown' : '';
+        return '<span class="status-badge ' + task.status + '">' + statusText + '</span>' + task.text;
+      }
+      return task.text;
+    };
+
     var task_sections = [
       { name: "description", height: 50, map_to: "text", type: "textarea" },
+      { name: "status", height: 30, map_to: "status", type: "select", options: [
+        { key: "active", label: "Active" },
+        { key: "on_hold", label: "On Hold" },
+        { key: "unknown", label: "Unknown" }
+      ]},
       { name: "time", height: 72, type: "time", map_to: "auto" }
     ];
     var project_sections = [
